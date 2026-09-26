@@ -1,0 +1,34 @@
+/* Crawl Readiness admin page and dashboard widget */
+.crawlready-wrap { max-width: 900px; }
+.crawlready-card { background: #fff; border: 1px solid #c3c4c7; border-radius: 6px; padding: 18px 20px; margin: 16px 0; }
+.crawlready-score { display: flex; align-items: center; gap: 20px; flex-wrap: wrap; }
+.crawlready-ring { width: 84px; height: 84px; border-radius: 50%; display: flex; flex-direction: column; align-items: center; justify-content: center; color: #1d2327; border: 6px solid #dcdcde; flex: none; }
+.crawlready-ring strong { font-size: 26px; line-height: 1; }
+.crawlready-ring span { font-size: 10px; letter-spacing: 0.06em; text-transform: uppercase; color: #646970; margin-top: 2px; }
+.crawlready-ring.tone-pos { border-color: #7dbb8f; }
+.crawlready-ring.tone-warn { border-color: #e6c26b; }
+.crawlready-ring.tone-neg { border-color: #e2585c; }
+.crawlready-ring.tone-info { border-color: #8fb3d9; }
+.crawlready-ring.tone-indigo { border-color: #a5b4fc; }
+.crawlready-ring.tone-slate { border-color: #8a97a8; }
+.crawlready-verdict { font-size: 18px; font-weight: 600; margin: 0 0 4px; }
+.crawlready-note { margin: 0 0 8px; color: #50575e; }
+.crawlready-meta { color: #646970; font-size: 12px; margin: 0; }
+.crawlready-actions { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; margin-top: 12px; }
+.crawlready-fixes { margin: 0; }
+.crawlready-fix { padding: 12px 0; border-top: 1px solid #f0f0f1; }
+.crawlready-fix:first-child { border-top: none; padding-top: 0; }
+.crawlready-fix h4 { margin: 0 0 4px; font-size: 14px; display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+.crawlready-fix p { margin: 0; color: #50575e; }
+.crawlready-sev { font-size: 10px; letter-spacing: 0.06em; text-transform: uppercase; padding: 1px 7px; border-radius: 4px; background: #f0f0f1; color: #50575e; font-weight: 600; }
+.crawlready-sev.high { background: #fbeaea; color: #8a1f1f; }
+.crawlready-sev.medium { background: #fdf1dc; color: #7a4d00; }
+.crawlready-handled { font-size: 12px; color: #1e7f4f; font-weight: 600; }
+.crawlready-settings th { width: 220px; }
+.crawlready-settings textarea { width: 100%; max-width: 640px; }
+.crawlready-settings .description { max-width: 640px; }
+.crawlready-monitor { background: #f0f6fc; border: 1px solid #c5d9ed; border-radius: 6px; padding: 14px 18px; margin: 16px 0; }
+.crawlready-monitor p { margin: 0 0 8px; }
+.crawlready-widget .crawlready-score { gap: 14px; }
+.crawlready-widget .crawlready-ring { width: 64px; height: 64px; border-width: 5px; }
+.crawlready-widget .crawlready-ring strong { font-size: 20px; }
