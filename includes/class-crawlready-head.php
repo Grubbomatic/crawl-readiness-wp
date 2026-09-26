@@ -82,7 +82,12 @@ class CrawlReady_Head {
 				return self::text( $d );
 			}
 		}
-		return self::text( get_bloginfo( 'description' ) );
+		$tagline = self::text( get_bloginfo( 'description' ) );
+		if ( '' !== $tagline ) {
+			return $tagline;
+		}
+		// No tagline: the About paragraph written for llms.txt does the same job.
+		return self::text( (string) CrawlReady_Settings::get( 'llms_about' ) );
 	}
 
 	/**

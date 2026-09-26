@@ -371,7 +371,7 @@ class CrawlReady_Admin {
 							<th scope="row"><?php esc_html_e( 'Meta description and Open Graph', 'crawl-readiness' ); ?></th>
 							<td>
 								<label><input type="checkbox" name="meta" value="1" <?php checked( $opts['meta'] ); ?> <?php disabled( $seo ); ?>> <?php esc_html_e( 'A description, title, image and canonical address for every page', 'crawl-readiness' ); ?></label>
-								<p class="description"><?php esc_html_e( 'From each page’s excerpt or first words, the featured image or your logo.', 'crawl-readiness' ); ?></p>
+								<p class="description"><?php esc_html_e( 'From each page’s excerpt or first words, the featured image or your logo. The home page uses the tagline from Settings → General, or the About paragraph above.', 'crawl-readiness' ); ?></p>
 							</td>
 						</tr>
 						<tr>

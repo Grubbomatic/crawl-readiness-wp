@@ -115,7 +115,6 @@ class CrawlReady_API {
 		$grade  = isset( $b['grade'] ) && is_array( $b['grade'] ) ? $b['grade'] : array();
 		$robots = isset( $b['robots'] ) && is_array( $b['robots'] ) ? $b['robots'] : array();
 		$major  = isset( $robots['summary'] ) && is_array( $robots['summary'] ) ? $robots['summary'] : array();
-		$other  = isset( $robots['otherSummary'] ) && is_array( $robots['otherSummary'] ) ? $robots['otherSummary'] : array();
 		$usage  = isset( $b['usage'] ) && is_array( $b['usage'] ) ? $b['usage'] : null;
 
 		return array(
@@ -130,8 +129,8 @@ class CrawlReady_API {
 			'share_id'       => preg_replace( '/[^a-z0-9]/i', '', (string) ( isset( $b['shareId'] ) ? $b['shareId'] : '' ) ),
 			'fixes'          => $fixes,
 			'crawlers'       => array(
-				'allowed' => (int) ( isset( $major['allowed'] ) ? $major['allowed'] : 0 ) + (int) ( isset( $other['allowed'] ) ? $other['allowed'] : 0 ),
-				'total'   => (int) ( isset( $major['total'] ) ? $major['total'] : 0 ) + (int) ( isset( $other['total'] ) ? $other['total'] : 0 ),
+				'allowed' => (int) ( isset( $major['allowed'] ) ? $major['allowed'] : 0 ),
+				'total'   => (int) ( isset( $major['total'] ) ? $major['total'] : 0 ),
 			),
 			'llms'           => ! empty( $b['llms']['present'] ),
 			'agents'         => ! empty( $b['agentsJson']['present'] ),
