@@ -1,0 +1,6 @@
+# Repository-only files stay out of release zips: `git archive` and GitHub's
+# download archive both honour export-ignore. wordpress.org's Plugin Check
+# flags hidden files ("hidden_files"), so .gitignore must not ship.
+.gitattributes export-ignore
+.gitignore export-ignore
+/dist export-ignore
