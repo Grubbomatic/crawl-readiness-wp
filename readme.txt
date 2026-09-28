@@ -1,5 +1,5 @@
 === Crawl Readiness – AI Crawler Check & llms.txt ===
-Contributors: crawlreadiness
+Contributors: grubbomatic
 Tags: ai, llms.txt, robots.txt, schema, open graph
 Requires at least: 6.0
 Tested up to: 7.1
