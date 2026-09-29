@@ -110,12 +110,19 @@ class CrawlReady_API {
 				'issue'       => sanitize_text_field( isset( $f['issue'] ) ? $f['issue'] : '' ),
 				'fix'         => sanitize_textarea_field( isset( $f['fix'] ) ? $f['fix'] : '' ),
 				'intentional' => ! empty( $f['intentional'] ),
+				// Shown but not scored (the service's "Going further" findings).
+				'extra'       => ! empty( $f['extra'] ),
 			);
 		}
 		$grade  = isset( $b['grade'] ) && is_array( $b['grade'] ) ? $b['grade'] : array();
 		$robots = isset( $b['robots'] ) && is_array( $b['robots'] ) ? $b['robots'] : array();
 		$major  = isset( $robots['summary'] ) && is_array( $robots['summary'] ) ? $robots['summary'] : array();
-		$usage  = isset( $b['usage'] ) && is_array( $b['usage'] ) ? $b['usage'] : null;
+		// The crawlers the score counts, when the service reports them.
+		$scored = isset( $major['scored'] ) && is_array( $major['scored'] );
+		if ( $scored ) {
+			$major = $major['scored'];
+		}
+		$usage = isset( $b['usage'] ) && is_array( $b['usage'] ) ? $b['usage'] : null;
 
 		return array(
 			'url'            => esc_url_raw( isset( $b['url'] ) ? $b['url'] : '' ),
@@ -131,6 +138,7 @@ class CrawlReady_API {
 			'crawlers'       => array(
 				'allowed' => (int) ( isset( $major['allowed'] ) ? $major['allowed'] : 0 ),
 				'total'   => (int) ( isset( $major['total'] ) ? $major['total'] : 0 ),
+				'scored'  => $scored,
 			),
 			'llms'           => ! empty( $b['llms']['present'] ),
 			'agents'         => ! empty( $b['agentsJson']['present'] ),

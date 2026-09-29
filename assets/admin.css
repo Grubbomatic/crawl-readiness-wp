@@ -23,6 +23,7 @@
 .crawlready-sev { font-size: 10px; letter-spacing: 0.06em; text-transform: uppercase; padding: 1px 7px; border-radius: 4px; background: #f0f0f1; color: #50575e; font-weight: 600; }
 .crawlready-sev.high { background: #fbeaea; color: #8a1f1f; }
 .crawlready-sev.medium { background: #fdf1dc; color: #7a4d00; }
+.crawlready-sev.extra { background: #eef1f4; color: #5d6673; }
 .crawlready-handled { font-size: 12px; color: #1e7f4f; font-weight: 600; }
 .crawlready-settings th { width: 220px; }
 .crawlready-settings textarea { width: 100%; max-width: 640px; }

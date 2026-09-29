@@ -221,12 +221,14 @@ class CrawlReady_Admin {
 				$bits[] = esc_html( date_i18n( get_option( 'date_format' ) . ' ' . get_option( 'time_format' ), (int) $report['checked_at'] ) );
 			}
 			if ( ! empty( $report['crawlers']['total'] ) ) {
-				$bits[] = esc_html( sprintf(
+				if ( empty( $report['crawlers']['scored'] ) ) {
 					/* translators: 1: allowed crawlers, 2: crawlers checked */
-					__( '%1$d of %2$d AI crawlers allowed', 'crawl-readiness' ),
-					$report['crawlers']['allowed'],
-					$report['crawlers']['total']
-				) );
+					$format = __( '%1$d of %2$d AI crawlers allowed', 'crawl-readiness' );
+				} else {
+					/* translators: 1: allowed crawlers, 2: crawlers the score counts */
+					$format = __( '%1$d of %2$d AI search and answer crawlers allowed', 'crawl-readiness' );
+				}
+				$bits[] = esc_html( sprintf( $format, $report['crawlers']['allowed'], $report['crawlers']['total'] ) );
 			}
 			$link = CrawlReady_API::report_link( $report );
 			if ( $link ) {
@@ -296,14 +298,26 @@ class CrawlReady_Admin {
 				<div class="crawlready-card">
 					<h2><?php esc_html_e( 'What the check found', 'crawl-readiness' ); ?></h2>
 					<div class="crawlready-fixes">
-						<?php foreach ( $report['fixes'] as $fix ) : ?>
+						<?php
+						// Scored findings first; the ones the score leaves out ("Going
+						// further" on crawlreadiness.com) after them, marked as such.
+						$ordered = array_merge(
+							array_values( array_filter( $report['fixes'], function ( $f ) { return empty( $f['extra'] ); } ) ),
+							array_values( array_filter( $report['fixes'], function ( $f ) { return ! empty( $f['extra'] ); } ) )
+						);
+						?>
+						<?php foreach ( $ordered as $fix ) : ?>
 							<?php
 							$key     = self::fix_setting( $fix['issue'] );
 							$handled = $key && ! empty( $opts[ $key ] ) && ( ! in_array( $key, array( 'meta', 'schema' ), true ) || ! $seo );
 							?>
 							<div class="crawlready-fix">
 								<h4>
-									<span class="crawlready-sev <?php echo esc_attr( $fix['severity'] ); ?>"><?php echo esc_html( $fix['severity'] ); ?></span>
+									<?php if ( empty( $fix['extra'] ) ) : ?>
+										<span class="crawlready-sev <?php echo esc_attr( $fix['severity'] ); ?>"><?php echo esc_html( $fix['severity'] ); ?></span>
+									<?php else : ?>
+										<span class="crawlready-sev extra"><?php esc_html_e( 'not scored', 'crawl-readiness' ); ?></span>
+									<?php endif; ?>
 									<?php echo esc_html( $fix['issue'] ); ?>
 									<?php if ( $handled ) : ?>
 										<span class="crawlready-handled"><?php esc_html_e( 'On below; check again to confirm', 'crawl-readiness' ); ?></span>
@@ -363,7 +377,7 @@ class CrawlReady_Admin {
 								<?php if ( CrawlReady_Robots::physical_file_exists() ) : ?>
 									<p class="description"><?php esc_html_e( 'A robots.txt file exists in the web root, so WordPress cannot serve its own and this switch has no effect. Add the rules to that file instead.', 'crawl-readiness' ); ?></p>
 								<?php else : ?>
-									<p class="description"><?php esc_html_e( 'Blocking training crawlers is a valid choice; the check currently scores every crawler the same, so it lowers the score.', 'crawl-readiness' ); ?> <a href="<?php echo esc_url( home_url( '/robots.txt' ) ); ?>" target="_blank" rel="noopener"><?php esc_html_e( 'View /robots.txt', 'crawl-readiness' ); ?></a></p>
+									<p class="description"><?php esc_html_e( 'Blocking the training-only crawlers (GPTBot, ClaudeBot, Applebot-Extended, Common Crawl and a few more) keeps your content out of AI training without taking you out of AI search or answers. It doesn\'t lower the check\'s score.', 'crawl-readiness' ); ?> <a href="<?php echo esc_url( home_url( '/robots.txt' ) ); ?>" target="_blank" rel="noopener"><?php esc_html_e( 'View /robots.txt', 'crawl-readiness' ); ?></a></p>
 								<?php endif; ?>
 							</td>
 						</tr>

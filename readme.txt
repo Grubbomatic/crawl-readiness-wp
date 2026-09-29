@@ -58,7 +58,7 @@ No. llms.txt, agents.json and the robots.txt rules are served by WordPress when 
 
 = Will blocking AI training crawlers hurt my score? =
 
-The check currently scores every AI crawler the same, so blocking the training crawlers lowers the score. It is still a valid choice, and the settings page says so.
+No. The check counts only the crawlers that fetch pages for AI search and answers. Blocking the ones that only gather training data (GPTBot, ClaudeBot, Applebot-Extended, Common Crawl's CCBot and a few more) is listed in the report but doesn't lower the score, and that is exactly what the "block AI training" setting does.
 
 = My site is on a staging or local address. Can I check the live site instead? =
 

@@ -63,8 +63,13 @@ class CrawlReady_Robots {
 	}
 
 	/**
-	 * Tokens that only collect training data. "Allow AI search, not training"
-	 * disallows these and allows everything else.
+	 * Tokens whose makers document them as collecting training data only.
+	 * "Allow AI search, not training" disallows these and allows everything
+	 * else. The same list the Crawl Readiness check leaves out of its score,
+	 * so this mode never costs points there. Google-Extended and
+	 * meta-externalagent are not on it: Google says Google-Extended also
+	 * controls grounding in the Gemini apps, and Meta says meta-externalagent
+	 * also indexes content for its products, so blocking either costs answers.
 	 *
 	 * @return array
 	 */
@@ -72,20 +77,13 @@ class CrawlReady_Robots {
 		return array(
 			'GPTBot',
 			'ClaudeBot',
-			'anthropic-ai',
-			'Google-Extended',
-			'GrokBot',
-			'meta-externalagent',
 			'Applebot-Extended',
-			'DeepSeekBot',
-			'cohere-training-data-crawler',
+			'FacebookBot',
 			'CCBot',
 			'Bytespider',
+			'cohere-training-data-crawler',
 			'AI2Bot',
 			'AI2Bot-Dolma',
-			'HuggingFace-Bot',
-			'Diffbot',
-			'Timpibot',
 		);
 	}
 
@@ -121,10 +119,17 @@ class CrawlReady_Robots {
 		$mode     = 'no-training' === CrawlReady_Settings::get( 'robots_mode' ) ? 'no-training' : 'allow';
 		$train    = 'no-training' === $mode ? 'no' : 'yes';
 		$training = array_flip( self::training() );
-		$lines    = array(
+		// The empty "Disallow:" closes the "*" group. Without a rule there, the
+		// next line, "User-agent: GPTBot", joins the same group (robots.txt
+		// parsers, Google's included, treat back-to-back user-agent lines as
+		// one group), so GPTBot's "Disallow: /" in no-training mode applied to
+		// every crawler, Googlebot too. An empty Disallow matches nothing, so
+		// unlike "Allow: /" it can't loosen any rule the site already has.
+		$lines = array(
 			'# AI crawlers, managed by the Crawl Readiness plugin',
 			'User-agent: *',
 			'Content-Signal: search=yes, ai-input=yes, ai-train=' . $train,
+			'Disallow:',
 			'',
 		);
 		foreach ( self::crawlers() as $vendor => $tokens ) {
