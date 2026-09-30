@@ -1,0 +1,82 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Inter:wght@400;500;600;700&display=block" rel="stylesheet">
+<style>
+  html, body { margin: 0; padding: 0; }
+  body { width: 772px; height: 250px; overflow: hidden; font-family: "Inter", system-ui, sans-serif; }
+  .banner {
+    position: relative; width: 772px; height: 250px; box-sizing: border-box; overflow: hidden;
+    background:
+      radial-gradient(circle at 88% 20%, rgba(37, 99, 235, 0.10), transparent 45%),
+      linear-gradient(135deg, #f8f9fb 0%, #eef2fb 100%);
+    padding: 40px 0 0 44px;
+  }
+  .banner::before { /* faint dot grid, like graph paper */
+    content: ""; position: absolute; inset: 0;
+    background-image: radial-gradient(rgba(26, 29, 35, 0.07) 1px, transparent 1px);
+    background-size: 14px 14px;
+  }
+  .left { position: relative; width: 470px; }
+  .tiles { display: flex; gap: 3px; margin-bottom: 20px; }
+  .tile {
+    position: relative; width: 27px; height: 38px; border-radius: 4px;
+    background: linear-gradient(180deg, #262a33 0%, #1a1d23 50%, #14161b 50%, #1a1d23 100%);
+    box-shadow: 0 3px 8px rgba(26, 29, 35, 0.18);
+    display: flex; align-items: center; justify-content: center;
+    font-family: "Space Mono", monospace; font-weight: 700; font-size: 22px; color: #fff;
+  }
+  .tile::after { content: ""; position: absolute; left: 0; right: 0; top: 50%; height: 1px; background: rgba(0,0,0,0.32); }
+  .gap { width: 10px; }
+  h1 { margin: 0 0 8px; font-size: 25px; line-height: 1.2; font-weight: 700; color: #1a1d23; letter-spacing: -0.3px; }
+  p { margin: 0; font-size: 14px; line-height: 1.5; color: #5f6875; max-width: 440px; }
+  .card {
+    position: absolute; right: 40px; top: 34px; width: 214px; box-sizing: border-box;
+    background: #fff; border: 1px solid #e2e5ea; border-radius: 12px; padding: 16px 16px 12px;
+    box-shadow: 0 16px 36px rgba(15, 23, 42, 0.12);
+  }
+  .score { display: flex; align-items: center; gap: 12px; padding-bottom: 12px; border-bottom: 1px solid #eef0f3; margin-bottom: 8px; }
+  .ring {
+    width: 56px; height: 56px; border-radius: 50%; flex: none;
+    background: conic-gradient(#16a34a 0 100%, #e2e5ea 0);
+    display: flex; align-items: center; justify-content: center;
+  }
+  .ring > div {
+    width: 44px; height: 44px; border-radius: 50%; background: #fff;
+    display: flex; align-items: center; justify-content: center;
+    font-family: "Space Mono", monospace; font-weight: 700; font-size: 17px; color: #1a1d23;
+  }
+  .verdict { font-weight: 600; font-size: 15px; color: #16a34a; }
+  .sub { font-size: 11px; color: #8b93a1; margin-top: 2px; }
+  .row { display: flex; justify-content: space-between; align-items: center; font-size: 12px; color: #1a1d23; padding: 4px 0; }
+  .ok { display: inline-flex; align-items: center; gap: 5px; color: #16a34a; font-weight: 600; font-size: 11px; }
+  .ok i { width: 13px; height: 13px; border-radius: 3px; background: #22c55e; display: inline-flex; align-items: center; justify-content: center; }
+  .ok i::after { content: ""; width: 6px; height: 3px; border-left: 2px solid #fff; border-bottom: 2px solid #fff; transform: rotate(-45deg) translate(0.5px, -1px); }
+</style>
+</head>
+<body>
+  <div class="banner">
+    <div class="left">
+      <div class="tiles">
+        <div class="tile">C</div><div class="tile">R</div><div class="tile">A</div><div class="tile">W</div><div class="tile">L</div>
+        <div class="gap"></div>
+        <div class="tile">R</div><div class="tile">E</div><div class="tile">A</div><div class="tile">D</div><div class="tile">I</div><div class="tile">N</div><div class="tile">E</div><div class="tile">S</div><div class="tile">S</div>
+      </div>
+      <h1>Can AI read your WordPress site?</h1>
+      <p>Check it in wp-admin, then fix it in one click: llms.txt, AI crawler rules, meta and Open Graph tags, JSON-LD.</p>
+    </div>
+    <div class="card">
+      <div class="score">
+        <div class="ring"><div>100</div></div>
+        <div><div class="verdict">AI Ready</div><div class="sub">35 of 35 AI crawlers allowed</div></div>
+      </div>
+      <div class="row">llms.txt <span class="ok"><i></i>Found</span></div>
+      <div class="row">Meta description <span class="ok"><i></i>Found</span></div>
+      <div class="row">Open Graph tags <span class="ok"><i></i>Found</span></div>
+      <div class="row">JSON-LD <span class="ok"><i></i>Found</span></div>
+    </div>
+  </div>
+</body>
+</html>
