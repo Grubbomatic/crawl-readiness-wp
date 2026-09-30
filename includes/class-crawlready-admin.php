@@ -400,7 +400,7 @@ class CrawlReady_Admin {
 							<th scope="row"><?php esc_html_e( 'agents.json', 'crawl-readiness' ); ?></th>
 							<td>
 								<label><input type="checkbox" name="agents" value="1" <?php checked( $opts['agents'] ); ?>> <?php esc_html_e( 'Serve /.well-known/agents.json, a short card pointing AI systems at llms.txt, the sitemap and the feed', 'crawl-readiness' ); ?></label>
-								<p class="description"><?php esc_html_e( 'An emerging convention. Harmless, and the check counts it.', 'crawl-readiness' ); ?></p>
+								<p class="description"><?php esc_html_e( 'An emerging convention. Harmless; the check lists it but doesn\'t score it.', 'crawl-readiness' ); ?></p>
 							</td>
 						</tr>
 					</table>

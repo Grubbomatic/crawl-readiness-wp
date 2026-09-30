@@ -100,15 +100,23 @@ class CrawlReady_API {
 	 * @return array
 	 */
 	private static function slim( array $b ) {
-		$fixes = array();
+		// The service's advice quotes tags as text ("Add a clear <meta
+		// name="description"> ..."). The sanitizers below strip anything
+		// tag-shaped, which left "Add a clear  summarizing the page".
+		// Encoding the angle brackets first keeps the quote as plain text;
+		// esc_html() then shows it as written.
+		$as_text = function ( $s ) {
+			return str_replace( array( '<', '>' ), array( '&lt;', '&gt;' ), (string) $s );
+		};
+		$fixes   = array();
 		foreach ( (array) ( isset( $b['fixes'] ) ? $b['fixes'] : array() ) as $f ) {
 			if ( ! is_array( $f ) ) {
 				continue;
 			}
 			$fixes[] = array(
 				'severity'    => sanitize_key( isset( $f['severity'] ) ? $f['severity'] : 'low' ),
-				'issue'       => sanitize_text_field( isset( $f['issue'] ) ? $f['issue'] : '' ),
-				'fix'         => sanitize_textarea_field( isset( $f['fix'] ) ? $f['fix'] : '' ),
+				'issue'       => sanitize_text_field( $as_text( isset( $f['issue'] ) ? $f['issue'] : '' ) ),
+				'fix'         => sanitize_textarea_field( $as_text( isset( $f['fix'] ) ? $f['fix'] : '' ) ),
 				'intentional' => ! empty( $f['intentional'] ),
 				// Shown but not scored (the service's "Going further" findings).
 				'extra'       => ! empty( $f['extra'] ),
