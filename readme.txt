@@ -1,4 +1,4 @@
-=== Crawl Readiness – AI Crawler Check & llms.txt ===
+=== Crawl Readiness – AI Crawler Check and Fixes ===
 Contributors: grubbomatic
 Tags: ai, llms.txt, robots.txt, schema, open graph
 Requires at least: 6.0
@@ -23,6 +23,10 @@ ChatGPT, Claude, Perplexity and Google AI answer questions by reading websites. 
 * **agents.json** — an optional card at `/.well-known/agents.json` pointing AI systems at your llms.txt, sitemap and feed.
 
 The check itself takes about ten seconds and can be run again any time. The dashboard shows your latest score.
+
+= Check first, then fix =
+
+Most AI plugins write a file and hope it helps. This one looks first, from the outside, the way an AI crawler does. It tests 51 AI crawlers and scores them by what each one is for, so blocking the ones that only collect training data doesn't cost you points. Every finding is matched to the switch that fixes it, and checking again shows whether it worked. llms.txt is one of five fixes, not the point of the plugin.
 
 = Works with your SEO plugin =
 

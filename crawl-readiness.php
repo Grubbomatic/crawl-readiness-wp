@@ -1,6 +1,6 @@
 <?php
 /**
- * Plugin Name:       Crawl Readiness – AI Crawler Check & llms.txt
+ * Plugin Name:       Crawl Readiness – AI Crawler Check and Fixes
  * Plugin URI:        https://github.com/Grubbomatic/crawl-readiness-wp
  * Description:       Check whether AI crawlers can read your site, then fix what they need in one click: llms.txt, robots.txt rules for AI crawlers, meta and Open Graph tags, JSON-LD and agents.json.
  * Version:           1.0.0
