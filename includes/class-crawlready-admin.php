@@ -41,8 +41,8 @@ class CrawlReady_Admin {
 	 */
 	public static function menu() {
 		add_management_page(
-			__( 'Crawl Readiness', 'crawl-readiness' ),
-			__( 'AI Readiness', 'crawl-readiness' ),
+			__( 'Crawl Readiness', 'grubbomatic-crawl-readiness' ),
+			__( 'AI Readiness', 'grubbomatic-crawl-readiness' ),
 			'manage_options',
 			self::PAGE,
 			array( __CLASS__, 'render' )
@@ -67,7 +67,7 @@ class CrawlReady_Admin {
 	 * @return array
 	 */
 	public static function action_links( $links ) {
-		array_unshift( $links, '<a href="' . esc_url( self::url() ) . '">' . esc_html__( 'Check site', 'crawl-readiness' ) . '</a>' );
+		array_unshift( $links, '<a href="' . esc_url( self::url() ) . '">' . esc_html__( 'Check site', 'grubbomatic-crawl-readiness' ) . '</a>' );
 		return $links;
 	}
 
@@ -82,8 +82,8 @@ class CrawlReady_Admin {
 		echo '<div class="notice notice-info is-dismissible"><p>';
 		printf(
 			/* translators: %s: link to the AI Readiness page */
-			esc_html__( 'Crawl Readiness is on. Run your first check under %s.', 'crawl-readiness' ),
-			'<a href="' . esc_url( self::url() ) . '">' . esc_html__( 'Tools → AI Readiness', 'crawl-readiness' ) . '</a>'
+			esc_html__( 'Crawl Readiness is on. Run your first check under %s.', 'grubbomatic-crawl-readiness' ),
+			'<a href="' . esc_url( self::url() ) . '">' . esc_html__( 'Tools → AI Readiness', 'grubbomatic-crawl-readiness' ) . '</a>'
 		);
 		echo '</p></div>';
 	}
@@ -95,7 +95,7 @@ class CrawlReady_Admin {
 		if ( ! current_user_can( 'manage_options' ) ) {
 			return;
 		}
-		wp_add_dashboard_widget( 'crawlready_widget', __( 'AI readiness', 'crawl-readiness' ), array( __CLASS__, 'render_widget' ) );
+		wp_add_dashboard_widget( 'crawlready_widget', __( 'AI readiness', 'grubbomatic-crawl-readiness' ), array( __CLASS__, 'render_widget' ) );
 	}
 
 	/**
@@ -107,9 +107,9 @@ class CrawlReady_Admin {
 		if ( $report ) {
 			self::score_card( $report, false );
 		} else {
-			echo '<p>' . esc_html__( 'Not checked yet. See whether AI crawlers can read this site.', 'crawl-readiness' ) . '</p>';
+			echo '<p>' . esc_html__( 'Not checked yet. See whether AI crawlers can read this site.', 'grubbomatic-crawl-readiness' ) . '</p>';
 		}
-		echo '<p><a class="button" href="' . esc_url( self::url() ) . '">' . esc_html__( 'Open AI Readiness', 'crawl-readiness' ) . '</a></p>';
+		echo '<p><a class="button" href="' . esc_url( self::url() ) . '">' . esc_html__( 'Open AI Readiness', 'grubbomatic-crawl-readiness' ) . '</a></p>';
 		echo '</div>';
 	}
 
@@ -118,14 +118,14 @@ class CrawlReady_Admin {
 	 */
 	public static function handle_check() {
 		if ( ! current_user_can( 'manage_options' ) ) {
-			wp_die( esc_html__( 'You do not have permission to do that.', 'crawl-readiness' ) );
+			wp_die( esc_html__( 'You do not have permission to do that.', 'grubbomatic-crawl-readiness' ) );
 		}
 		check_admin_referer( 'crawlready_check' );
 		$result = CrawlReady_API::run_check();
 		if ( is_wp_error( $result ) ) {
 			set_transient( 'crawlready_message_' . get_current_user_id(), array( 'kind' => 'error', 'text' => $result->get_error_message() ), MINUTE_IN_SECONDS );
 		} else {
-			set_transient( 'crawlready_message_' . get_current_user_id(), array( 'kind' => 'success', 'text' => __( 'Checked.', 'crawl-readiness' ) ), MINUTE_IN_SECONDS );
+			set_transient( 'crawlready_message_' . get_current_user_id(), array( 'kind' => 'success', 'text' => __( 'Checked.', 'grubbomatic-crawl-readiness' ) ), MINUTE_IN_SECONDS );
 		}
 		wp_safe_redirect( self::url() );
 		exit;
@@ -136,7 +136,7 @@ class CrawlReady_Admin {
 	 */
 	public static function handle_save() {
 		if ( ! current_user_can( 'manage_options' ) ) {
-			wp_die( esc_html__( 'You do not have permission to do that.', 'crawl-readiness' ) );
+			wp_die( esc_html__( 'You do not have permission to do that.', 'grubbomatic-crawl-readiness' ) );
 		}
 		check_admin_referer( 'crawlready_save' );
 
@@ -166,7 +166,7 @@ class CrawlReady_Admin {
 				'same_as'     => implode( "\n", $lines ),
 			)
 		);
-		set_transient( 'crawlready_message_' . get_current_user_id(), array( 'kind' => 'success', 'text' => __( 'Settings saved. Run the check again to see the difference.', 'crawl-readiness' ) ), MINUTE_IN_SECONDS );
+		set_transient( 'crawlready_message_' . get_current_user_id(), array( 'kind' => 'success', 'text' => __( 'Settings saved. Run the check again to see the difference.', 'grubbomatic-crawl-readiness' ) ), MINUTE_IN_SECONDS );
 		wp_safe_redirect( self::url() );
 		exit;
 	}
@@ -206,7 +206,7 @@ class CrawlReady_Admin {
 	private static function score_card( array $report, $full = true ) {
 		$g = $report['grade'];
 		echo '<div class="crawlready-score">';
-		echo '<div class="crawlready-ring tone-' . esc_attr( $g['tone'] ) . '"><strong>' . (int) $report['score'] . '</strong><span>' . esc_html__( 'of 100', 'crawl-readiness' ) . '</span></div>';
+		echo '<div class="crawlready-ring tone-' . esc_attr( $g['tone'] ) . '"><strong>' . (int) $report['score'] . '</strong><span>' . esc_html__( 'of 100', 'grubbomatic-crawl-readiness' ) . '</span></div>';
 		echo '<div>';
 		echo '<p class="crawlready-verdict">' . esc_html( trim( $g['letter'] . ' ' . $g['status'] ) ) . '</p>';
 		if ( '' !== $g['note'] ) {
@@ -223,16 +223,16 @@ class CrawlReady_Admin {
 			if ( ! empty( $report['crawlers']['total'] ) ) {
 				if ( empty( $report['crawlers']['scored'] ) ) {
 					/* translators: 1: allowed crawlers, 2: crawlers checked */
-					$format = __( '%1$d of %2$d AI crawlers allowed', 'crawl-readiness' );
+					$format = __( '%1$d of %2$d AI crawlers allowed', 'grubbomatic-crawl-readiness' );
 				} else {
 					/* translators: 1: allowed crawlers, 2: crawlers the score counts */
-					$format = __( '%1$d of %2$d AI search and answer crawlers allowed', 'crawl-readiness' );
+					$format = __( '%1$d of %2$d AI search and answer crawlers allowed', 'grubbomatic-crawl-readiness' );
 				}
 				$bits[] = esc_html( sprintf( $format, $report['crawlers']['allowed'], $report['crawlers']['total'] ) );
 			}
 			$link = CrawlReady_API::report_link( $report );
 			if ( $link ) {
-				$bits[] = '<a href="' . esc_url( $link ) . '" target="_blank" rel="noopener">' . esc_html__( 'Full report', 'crawl-readiness' ) . '</a>';
+				$bits[] = '<a href="' . esc_url( $link ) . '" target="_blank" rel="noopener">' . esc_html__( 'Full report', 'grubbomatic-crawl-readiness' ) . '</a>';
 			}
 			echo '<p class="crawlready-meta">' . wp_kses(
 				implode( ' · ', $bits ),
@@ -247,7 +247,7 @@ class CrawlReady_Admin {
 			if ( ! empty( $report['usage'] ) && ! empty( $report['usage']['limit'] ) ) {
 				echo '<p class="crawlready-meta">' . esc_html( sprintf(
 					/* translators: 1: checks used, 2: monthly limit */
-					__( '%1$d of %2$d checks used this month on your API key.', 'crawl-readiness' ),
+					__( '%1$d of %2$d checks used this month on your API key.', 'grubbomatic-crawl-readiness' ),
 					$report['usage']['used'],
 					$report['usage']['limit']
 				) ) . '</p>';
@@ -274,8 +274,8 @@ class CrawlReady_Admin {
 		$site     = CrawlReady_API::check_url();
 		?>
 		<div class="wrap crawlready-wrap">
-			<h1><?php esc_html_e( 'AI readiness', 'crawl-readiness' ); ?></h1>
-			<p><?php esc_html_e( 'Can AI crawlers read this site? The check fetches it from the outside, the way ChatGPT, Claude, Perplexity and Google AI do, and lists what they need. The switches below fix most of it from inside WordPress.', 'crawl-readiness' ); ?></p>
+			<h1><?php esc_html_e( 'AI readiness', 'grubbomatic-crawl-readiness' ); ?></h1>
+			<p><?php esc_html_e( 'Can AI crawlers read this site? The check fetches it from the outside, the way ChatGPT, Claude, Perplexity and Google AI do, and lists what they need. The switches below fix most of it from inside WordPress.', 'grubbomatic-crawl-readiness' ); ?></p>
 
 			<?php if ( $message && is_array( $message ) ) : ?>
 				<div class="notice notice-<?php echo 'error' === $message['kind'] ? 'error' : 'success'; ?> is-dismissible"><p><?php echo esc_html( $message['text'] ); ?></p></div>
@@ -285,11 +285,11 @@ class CrawlReady_Admin {
 				<?php if ( $report ) : ?>
 					<?php self::score_card( $report, true ); ?>
 				<?php else : ?>
-					<p><strong><?php esc_html_e( 'Not checked yet.', 'crawl-readiness' ); ?></strong>
+					<p><strong><?php esc_html_e( 'Not checked yet.', 'grubbomatic-crawl-readiness' ); ?></strong>
 					<?php
 					printf(
 						/* translators: %s: site address */
-						esc_html__( 'The check runs for %s and takes about ten seconds.', 'crawl-readiness' ),
+						esc_html__( 'The check runs for %s and takes about ten seconds.', 'grubbomatic-crawl-readiness' ),
 						'<code>' . esc_html( $site ) . '</code>'
 					);
 					?>
@@ -298,14 +298,14 @@ class CrawlReady_Admin {
 				<form class="crawlready-actions" method="post" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>">
 					<?php wp_nonce_field( 'crawlready_check' ); ?>
 					<input type="hidden" name="action" value="crawlready_check">
-					<button type="submit" class="button button-primary"><?php echo $report ? esc_html__( 'Check again', 'crawl-readiness' ) : esc_html__( 'Check this site', 'crawl-readiness' ); ?></button>
-					<span class="crawlready-meta"><?php esc_html_e( 'Sends only the site address to crawlreadiness.com.', 'crawl-readiness' ); ?></span>
+					<button type="submit" class="button button-primary"><?php echo $report ? esc_html__( 'Check again', 'grubbomatic-crawl-readiness' ) : esc_html__( 'Check this site', 'grubbomatic-crawl-readiness' ); ?></button>
+					<span class="crawlready-meta"><?php esc_html_e( 'Sends only the site address to crawlreadiness.com.', 'grubbomatic-crawl-readiness' ); ?></span>
 				</form>
 			</div>
 
 			<?php if ( $report && ! empty( $report['fixes'] ) ) : ?>
 				<div class="crawlready-card">
-					<h2><?php esc_html_e( 'What the check found', 'crawl-readiness' ); ?></h2>
+					<h2><?php esc_html_e( 'What the check found', 'grubbomatic-crawl-readiness' ); ?></h2>
 					<div class="crawlready-fixes">
 						<?php
 						// Scored findings first; the ones the score leaves out ("Going
@@ -325,13 +325,13 @@ class CrawlReady_Admin {
 									<?php if ( empty( $fix['extra'] ) ) : ?>
 										<span class="crawlready-sev <?php echo esc_attr( $fix['severity'] ); ?>"><?php echo esc_html( $fix['severity'] ); ?></span>
 									<?php else : ?>
-										<span class="crawlready-sev extra"><?php esc_html_e( 'not scored', 'crawl-readiness' ); ?></span>
+										<span class="crawlready-sev extra"><?php esc_html_e( 'not scored', 'grubbomatic-crawl-readiness' ); ?></span>
 									<?php endif; ?>
 									<?php echo esc_html( $fix['issue'] ); ?>
 									<?php if ( $handled ) : ?>
-										<span class="crawlready-handled"><?php esc_html_e( 'On below; check again to confirm', 'crawl-readiness' ); ?></span>
+										<span class="crawlready-handled"><?php esc_html_e( 'On below; check again to confirm', 'grubbomatic-crawl-readiness' ); ?></span>
 									<?php elseif ( $key ) : ?>
-										<span class="crawlready-handled"><?php esc_html_e( 'A switch below fixes this', 'crawl-readiness' ); ?></span>
+										<span class="crawlready-handled"><?php esc_html_e( 'A switch below fixes this', 'grubbomatic-crawl-readiness' ); ?></span>
 									<?php endif; ?>
 								</h4>
 								<p><?php echo esc_html( $fix['fix'] ); ?></p>
@@ -340,20 +340,20 @@ class CrawlReady_Admin {
 					</div>
 				</div>
 			<?php elseif ( $report ) : ?>
-				<div class="crawlready-card"><p><?php esc_html_e( 'Nothing outstanding. AI crawlers can read this site and the machine-readable signals are in place.', 'crawl-readiness' ); ?></p></div>
+				<div class="crawlready-card"><p><?php esc_html_e( 'Nothing outstanding. AI crawlers can read this site and the machine-readable signals are in place.', 'grubbomatic-crawl-readiness' ); ?></p></div>
 			<?php endif; ?>
 
 			<form class="crawlready-settings" method="post" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>">
 				<?php wp_nonce_field( 'crawlready_save' ); ?>
 				<input type="hidden" name="action" value="crawlready_save">
 				<div class="crawlready-card">
-					<h2><?php esc_html_e( 'Fixes', 'crawl-readiness' ); ?></h2>
+					<h2><?php esc_html_e( 'Fixes', 'grubbomatic-crawl-readiness' ); ?></h2>
 					<?php if ( $seo ) : ?>
 						<p class="description">
 						<?php
 						printf(
 							/* translators: %s: name of the SEO plugin */
-							esc_html__( '%s is active and owns the meta tags and structured data, so those two switches stay off.', 'crawl-readiness' ),
+							esc_html__( '%s is active and owns the meta tags and structured data, so those two switches stay off.', 'grubbomatic-crawl-readiness' ),
 							esc_html( $seo_name )
 						);
 						?>
@@ -361,67 +361,67 @@ class CrawlReady_Admin {
 					<?php endif; ?>
 					<table class="form-table" role="presentation">
 						<tr>
-							<th scope="row"><?php esc_html_e( 'llms.txt', 'crawl-readiness' ); ?></th>
+							<th scope="row"><?php esc_html_e( 'llms.txt', 'grubbomatic-crawl-readiness' ); ?></th>
 							<td>
-								<label><input type="checkbox" name="llms" value="1" <?php checked( $opts['llms'] ); ?>> <?php esc_html_e( 'Serve /llms.txt, built from this site’s pages and posts', 'crawl-readiness' ); ?></label>
+								<label><input type="checkbox" name="llms" value="1" <?php checked( $opts['llms'] ); ?>> <?php esc_html_e( 'Serve /llms.txt, built from this site’s pages and posts', 'grubbomatic-crawl-readiness' ); ?></label>
 								<?php if ( CrawlReady_Llms::physical_file_exists() ) : ?>
-									<p class="description"><?php esc_html_e( 'An llms.txt file already exists in the web root, so the web server serves that one instead.', 'crawl-readiness' ); ?></p>
+									<p class="description"><?php esc_html_e( 'An llms.txt file already exists in the web root, so the web server serves that one instead.', 'grubbomatic-crawl-readiness' ); ?></p>
 								<?php else : ?>
-									<p class="description"><a href="<?php echo esc_url( home_url( '/llms.txt' ) ); ?>" target="_blank" rel="noopener"><?php esc_html_e( 'View /llms.txt', 'crawl-readiness' ); ?></a></p>
+									<p class="description"><a href="<?php echo esc_url( home_url( '/llms.txt' ) ); ?>" target="_blank" rel="noopener"><?php esc_html_e( 'View /llms.txt', 'grubbomatic-crawl-readiness' ); ?></a></p>
 								<?php endif; ?>
-								<p><label for="crawlready-about"><?php esc_html_e( 'About paragraph (optional)', 'crawl-readiness' ); ?></label><br>
-								<textarea id="crawlready-about" name="llms_about" rows="3" placeholder="<?php esc_attr_e( 'One or two sentences on what the site is and who it is for.', 'crawl-readiness' ); ?>"><?php echo esc_textarea( $opts['llms_about'] ); ?></textarea></p>
-								<p><label for="crawlready-pages"><?php esc_html_e( 'Pages and posts to list', 'crawl-readiness' ); ?></label>
+								<p><label for="crawlready-about"><?php esc_html_e( 'About paragraph (optional)', 'grubbomatic-crawl-readiness' ); ?></label><br>
+								<textarea id="crawlready-about" name="llms_about" rows="3" placeholder="<?php esc_attr_e( 'One or two sentences on what the site is and who it is for.', 'grubbomatic-crawl-readiness' ); ?>"><?php echo esc_textarea( $opts['llms_about'] ); ?></textarea></p>
+								<p><label for="crawlready-pages"><?php esc_html_e( 'Pages and posts to list', 'grubbomatic-crawl-readiness' ); ?></label>
 								<input id="crawlready-pages" type="number" name="llms_pages" min="1" max="100" value="<?php echo (int) $opts['llms_pages']; ?>" class="small-text"></p>
 							</td>
 						</tr>
 						<tr>
-							<th scope="row"><?php esc_html_e( 'AI crawlers in robots.txt', 'crawl-readiness' ); ?></th>
+							<th scope="row"><?php esc_html_e( 'AI crawlers in robots.txt', 'grubbomatic-crawl-readiness' ); ?></th>
 							<td>
-								<label><input type="checkbox" name="robots" value="1" <?php checked( $opts['robots'] ); ?>> <?php esc_html_e( 'Add a rule for every known AI crawler, and a Content-Signal line', 'crawl-readiness' ); ?></label>
+								<label><input type="checkbox" name="robots" value="1" <?php checked( $opts['robots'] ); ?>> <?php esc_html_e( 'Add a rule for every known AI crawler, and a Content-Signal line', 'grubbomatic-crawl-readiness' ); ?></label>
 								<p>
-									<label><input type="radio" name="robots_mode" value="allow" <?php checked( 'allow', $opts['robots_mode'] ); ?>> <?php esc_html_e( 'Allow all AI crawlers', 'crawl-readiness' ); ?></label><br>
-									<label><input type="radio" name="robots_mode" value="no-training" <?php checked( 'no-training', $opts['robots_mode'] ); ?>> <?php esc_html_e( 'Allow AI search and assistants, block AI training', 'crawl-readiness' ); ?></label>
+									<label><input type="radio" name="robots_mode" value="allow" <?php checked( 'allow', $opts['robots_mode'] ); ?>> <?php esc_html_e( 'Allow all AI crawlers', 'grubbomatic-crawl-readiness' ); ?></label><br>
+									<label><input type="radio" name="robots_mode" value="no-training" <?php checked( 'no-training', $opts['robots_mode'] ); ?>> <?php esc_html_e( 'Allow AI search and assistants, block AI training', 'grubbomatic-crawl-readiness' ); ?></label>
 								</p>
 								<?php if ( CrawlReady_Robots::physical_file_exists() ) : ?>
-									<p class="description"><?php esc_html_e( 'A robots.txt file exists in the web root, so WordPress cannot serve its own and this switch has no effect. Add the rules to that file instead.', 'crawl-readiness' ); ?></p>
+									<p class="description"><?php esc_html_e( 'A robots.txt file exists in the web root, so WordPress cannot serve its own and this switch has no effect. Add the rules to that file instead.', 'grubbomatic-crawl-readiness' ); ?></p>
 								<?php else : ?>
-									<p class="description"><?php esc_html_e( 'Blocking the training-only crawlers (GPTBot, ClaudeBot, Applebot-Extended, Common Crawl and a few more) keeps your content out of AI training without taking you out of AI search or answers. It doesn\'t lower the check\'s score.', 'crawl-readiness' ); ?> <a href="<?php echo esc_url( home_url( '/robots.txt' ) ); ?>" target="_blank" rel="noopener"><?php esc_html_e( 'View /robots.txt', 'crawl-readiness' ); ?></a></p>
+									<p class="description"><?php esc_html_e( 'Blocking the training-only crawlers (GPTBot, ClaudeBot, Applebot-Extended, Common Crawl and a few more) keeps your content out of AI training without taking you out of AI search or answers. It doesn\'t lower the check\'s score.', 'grubbomatic-crawl-readiness' ); ?> <a href="<?php echo esc_url( home_url( '/robots.txt' ) ); ?>" target="_blank" rel="noopener"><?php esc_html_e( 'View /robots.txt', 'grubbomatic-crawl-readiness' ); ?></a></p>
 								<?php endif; ?>
 							</td>
 						</tr>
 						<tr>
-							<th scope="row"><?php esc_html_e( 'Meta description and Open Graph', 'crawl-readiness' ); ?></th>
+							<th scope="row"><?php esc_html_e( 'Meta description and Open Graph', 'grubbomatic-crawl-readiness' ); ?></th>
 							<td>
-								<label><input type="checkbox" name="meta" value="1" <?php checked( $opts['meta'] ); ?> <?php disabled( $seo ); ?>> <?php esc_html_e( 'A description, title, image and canonical address for every page', 'crawl-readiness' ); ?></label>
-								<p class="description"><?php esc_html_e( 'From each page’s excerpt or first words, the featured image or your logo. The home page uses the tagline from Settings → General, or the About paragraph above.', 'crawl-readiness' ); ?></p>
+								<label><input type="checkbox" name="meta" value="1" <?php checked( $opts['meta'] ); ?> <?php disabled( $seo ); ?>> <?php esc_html_e( 'A description, title, image and canonical address for every page', 'grubbomatic-crawl-readiness' ); ?></label>
+								<p class="description"><?php esc_html_e( 'From each page’s excerpt or first words, the featured image or your logo. The home page uses the tagline from Settings → General, or the About paragraph above.', 'grubbomatic-crawl-readiness' ); ?></p>
 							</td>
 						</tr>
 						<tr>
-							<th scope="row"><?php esc_html_e( 'Structured data (JSON-LD)', 'crawl-readiness' ); ?></th>
+							<th scope="row"><?php esc_html_e( 'Structured data (JSON-LD)', 'grubbomatic-crawl-readiness' ); ?></th>
 							<td>
-								<label><input type="checkbox" name="schema" value="1" <?php checked( $opts['schema'] ); ?> <?php disabled( $seo ); ?>> <?php esc_html_e( 'Organization and WebSite for the site, Article for posts', 'crawl-readiness' ); ?></label>
-								<p><label for="crawlready-sameas"><?php esc_html_e( 'Your profiles elsewhere, one address per line (optional)', 'crawl-readiness' ); ?></label><br>
+								<label><input type="checkbox" name="schema" value="1" <?php checked( $opts['schema'] ); ?> <?php disabled( $seo ); ?>> <?php esc_html_e( 'Organization and WebSite for the site, Article for posts', 'grubbomatic-crawl-readiness' ); ?></label>
+								<p><label for="crawlready-sameas"><?php esc_html_e( 'Your profiles elsewhere, one address per line (optional)', 'grubbomatic-crawl-readiness' ); ?></label><br>
 								<textarea id="crawlready-sameas" name="same_as" rows="3" placeholder="https://www.linkedin.com/company/…"><?php echo esc_textarea( $opts['same_as'] ); ?></textarea></p>
 							</td>
 						</tr>
 						<tr>
-							<th scope="row"><?php esc_html_e( 'agents.json', 'crawl-readiness' ); ?></th>
+							<th scope="row"><?php esc_html_e( 'agents.json', 'grubbomatic-crawl-readiness' ); ?></th>
 							<td>
-								<label><input type="checkbox" name="agents" value="1" <?php checked( $opts['agents'] ); ?>> <?php esc_html_e( 'Serve /.well-known/agents.json, a short card pointing AI systems at llms.txt, the sitemap and the feed', 'crawl-readiness' ); ?></label>
-								<p class="description"><?php esc_html_e( 'An emerging convention. Harmless; the check lists it but doesn\'t score it.', 'crawl-readiness' ); ?></p>
+								<label><input type="checkbox" name="agents" value="1" <?php checked( $opts['agents'] ); ?>> <?php esc_html_e( 'Serve /.well-known/agents.json, a short card pointing AI systems at llms.txt, the sitemap and the feed', 'grubbomatic-crawl-readiness' ); ?></label>
+								<p class="description"><?php esc_html_e( 'An emerging convention. Harmless; the check lists it but doesn\'t score it.', 'grubbomatic-crawl-readiness' ); ?></p>
 							</td>
 						</tr>
 					</table>
 				</div>
 
 				<div class="crawlready-card">
-					<h2><?php esc_html_e( 'API key (optional)', 'crawl-readiness' ); ?></h2>
+					<h2><?php esc_html_e( 'API key (optional)', 'grubbomatic-crawl-readiness' ); ?></h2>
 					<p class="description">
 					<?php
 					printf(
 						/* translators: %s: link to the Crawl Readiness dashboard */
-						esc_html__( 'Without a key the check shares a free daily allowance with other sites on your network. A free account at %s gives you a key with 50 checks a month.', 'crawl-readiness' ),
+						esc_html__( 'Without a key the check shares a free daily allowance with other sites on your network. A free account at %s gives you a key with 50 checks a month.', 'grubbomatic-crawl-readiness' ),
 						'<a href="' . esc_url( CRAWLREADY_SITE . '/dashboard?utm_source=wordpress-plugin' ) . '" target="_blank" rel="noopener">crawlreadiness.com</a>'
 					);
 					?>
@@ -429,22 +429,22 @@ class CrawlReady_Admin {
 					<p><input type="text" name="api_key" value="<?php echo esc_attr( $opts['api_key'] ); ?>" class="regular-text" autocomplete="off" placeholder="cr_…"></p>
 				</div>
 
-				<p><button type="submit" class="button button-primary"><?php esc_html_e( 'Save settings', 'crawl-readiness' ); ?></button></p>
+				<p><button type="submit" class="button button-primary"><?php esc_html_e( 'Save settings', 'grubbomatic-crawl-readiness' ); ?></button></p>
 			</form>
 
 			<div class="crawlready-monitor">
-				<p><strong><?php esc_html_e( 'Being readable is step one. Being mentioned is the goal.', 'crawl-readiness' ); ?></strong></p>
-				<p><?php esc_html_e( 'LLM Monitor asks ChatGPT, Claude, Perplexity and Google AI the questions your customers ask, and tracks whether they name you or a competitor, every week.', 'crawl-readiness' ); ?></p>
-				<a class="button" href="<?php echo esc_url( CRAWLREADY_SITE . '/dashboard/monitor?utm_source=wordpress-plugin' ); ?>" target="_blank" rel="noopener"><?php esc_html_e( 'Track your brand in AI answers', 'crawl-readiness' ); ?></a>
+				<p><strong><?php esc_html_e( 'Being readable is step one. Being mentioned is the goal.', 'grubbomatic-crawl-readiness' ); ?></strong></p>
+				<p><?php esc_html_e( 'LLM Monitor asks ChatGPT, Claude, Perplexity and Google AI the questions your customers ask, and tracks whether they name you or a competitor, every week.', 'grubbomatic-crawl-readiness' ); ?></p>
+				<a class="button" href="<?php echo esc_url( CRAWLREADY_SITE . '/dashboard/monitor?utm_source=wordpress-plugin' ); ?>" target="_blank" rel="noopener"><?php esc_html_e( 'Track your brand in AI answers', 'grubbomatic-crawl-readiness' ); ?></a>
 			</div>
 
 			<p class="crawlready-meta">
 			<?php
 			printf(
 				/* translators: 1: privacy policy link, 2: terms link */
-				esc_html__( 'The check is made by crawlreadiness.com, which fetches your site from the outside and stores the result. Nothing else leaves this site. %1$s · %2$s', 'crawl-readiness' ),
-				'<a href="' . esc_url( CRAWLREADY_SITE . '/privacy' ) . '" target="_blank" rel="noopener">' . esc_html__( 'Privacy', 'crawl-readiness' ) . '</a>',
-				'<a href="' . esc_url( CRAWLREADY_SITE . '/terms' ) . '" target="_blank" rel="noopener">' . esc_html__( 'Terms', 'crawl-readiness' ) . '</a>'
+				esc_html__( 'The check is made by crawlreadiness.com, which fetches your site from the outside and stores the result. Nothing else leaves this site. %1$s · %2$s', 'grubbomatic-crawl-readiness' ),
+				'<a href="' . esc_url( CRAWLREADY_SITE . '/privacy' ) . '" target="_blank" rel="noopener">' . esc_html__( 'Privacy', 'grubbomatic-crawl-readiness' ) . '</a>',
+				'<a href="' . esc_url( CRAWLREADY_SITE . '/terms' ) . '" target="_blank" rel="noopener">' . esc_html__( 'Terms', 'grubbomatic-crawl-readiness' ) . '</a>'
 			);
 			?>
 			</p>

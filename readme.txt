@@ -1,4 +1,4 @@
-=== Crawl Readiness – AI Crawler Check and Fixes ===
+=== Grubbomatic Crawl Readiness – AI Crawler Check and Fixes ===
 Contributors: grubbomatic
 Tags: ai, llms.txt, robots.txt, schema, open graph
 Requires at least: 6.0
@@ -14,7 +14,7 @@ Check whether AI crawlers can read your site, then fix what they need in one cli
 
 ChatGPT, Claude, Perplexity and Google AI answer questions by reading websites. If they cannot read yours, you are not in the answer.
 
-**Crawl Readiness** runs the free readiness check from [crawlreadiness.com](https://www.crawlreadiness.com) against your site and shows the result in wp-admin: a score out of 100, a plain-English verdict, and the list of things AI crawlers need that your site does not have yet. Then it fixes most of them for you, from inside WordPress:
+**Grubbomatic Crawl Readiness** runs the free readiness check from [crawlreadiness.com](https://www.crawlreadiness.com) against your site and shows the result in wp-admin: a score out of 100, a plain-English verdict, and the list of things AI crawlers need that your site does not have yet. Then it fixes most of them for you, from inside WordPress:
 
 * **llms.txt** — a Markdown summary of your site, built from your own pages and posts and served at `/llms.txt`. Nothing is written to disk and nothing goes stale.
 * **AI crawlers in robots.txt** — a rule for every known AI crawler (OpenAI, Anthropic, Google, Perplexity, Meta, Apple and the rest) plus a Content-Signal line. Choose "allow all" or "allow AI search and assistants, block AI training".

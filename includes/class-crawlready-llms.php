@@ -87,7 +87,7 @@ class CrawlReady_Llms {
 		} else {
 			$lines[] = sprintf(
 				/* translators: 1: site name, 2: home URL */
-				__( '%1$s is published at %2$s. This file lists the main pages and recent posts for AI systems that read Markdown.', 'crawl-readiness' ),
+				__( '%1$s is published at %2$s. This file lists the main pages and recent posts for AI systems that read Markdown.', 'grubbomatic-crawl-readiness' ),
 				$name,
 				home_url( '/' )
 			);
@@ -102,7 +102,7 @@ class CrawlReady_Llms {
 			)
 		);
 		if ( ! empty( $pages ) ) {
-			$lines[] = '## ' . __( 'Pages', 'crawl-readiness' );
+			$lines[] = '## ' . __( 'Pages', 'grubbomatic-crawl-readiness' );
 			foreach ( $pages as $page ) {
 				$lines[] = self::entry( $page );
 			}
@@ -116,18 +116,18 @@ class CrawlReady_Llms {
 			)
 		);
 		if ( ! empty( $posts ) ) {
-			$lines[] = '## ' . __( 'Recent posts', 'crawl-readiness' );
+			$lines[] = '## ' . __( 'Recent posts', 'grubbomatic-crawl-readiness' );
 			foreach ( $posts as $post ) {
 				$lines[] = self::entry( $post );
 			}
 			$lines[] = '';
 		}
 
-		$lines[] = '## ' . __( 'Optional', 'crawl-readiness' );
+		$lines[] = '## ' . __( 'Optional', 'grubbomatic-crawl-readiness' );
 		if ( function_exists( 'wp_sitemaps_get_server' ) && wp_sitemaps_get_server()->sitemaps_enabled() ) {
-			$lines[] = '- [' . __( 'Sitemap', 'crawl-readiness' ) . '](' . esc_url_raw( get_sitemap_url( 'index' ) ) . ')';
+			$lines[] = '- [' . __( 'Sitemap', 'grubbomatic-crawl-readiness' ) . '](' . esc_url_raw( get_sitemap_url( 'index' ) ) . ')';
 		}
-		$lines[] = '- [' . __( 'RSS feed', 'crawl-readiness' ) . '](' . esc_url_raw( get_feed_link() ) . ')';
+		$lines[] = '- [' . __( 'RSS feed', 'grubbomatic-crawl-readiness' ) . '](' . esc_url_raw( get_feed_link() ) . ')';
 
 		return implode( "\n", $lines ) . "\n";
 	}

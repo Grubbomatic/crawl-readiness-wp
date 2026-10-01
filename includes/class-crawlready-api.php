@@ -52,12 +52,12 @@ class CrawlReady_API {
 		$code = (int) wp_remote_retrieve_response_code( $response );
 		$body = json_decode( wp_remote_retrieve_body( $response ), true );
 		if ( ! is_array( $body ) ) {
-			return new WP_Error( 'crawlready_bad_reply', __( 'The check service sent an unexpected reply. Try again in a minute.', 'crawl-readiness' ) );
+			return new WP_Error( 'crawlready_bad_reply', __( 'The check service sent an unexpected reply. Try again in a minute.', 'grubbomatic-crawl-readiness' ) );
 		}
 		if ( 200 !== $code ) {
 			$message = isset( $body['error'] ) ? (string) $body['error'] : sprintf(
 				/* translators: %d: HTTP status code */
-				__( 'The check failed (HTTP %d).', 'crawl-readiness' ),
+				__( 'The check failed (HTTP %d).', 'grubbomatic-crawl-readiness' ),
 				$code
 			);
 			return new WP_Error( 'crawlready_' . $code, $message );
