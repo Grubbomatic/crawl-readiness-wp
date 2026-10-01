@@ -34,8 +34,10 @@ class CrawlReady_Llms {
 			return;
 		}
 		header( 'Content-Type: text/plain; charset=utf-8' );
+		// The browser must treat it as text whatever it contains.
+		header( 'X-Content-Type-Options: nosniff' );
 		header( 'Cache-Control: public, max-age=3600' );
-		echo self::build(); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- a plain-text document built from stripped, escaped parts.
+		echo self::build(); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- a text/plain document (nosniff), built from stripped, escaped parts; HTML-escaping would corrupt its Markdown.
 		exit;
 	}
 

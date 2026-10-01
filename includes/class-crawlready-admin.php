@@ -234,7 +234,16 @@ class CrawlReady_Admin {
 			if ( $link ) {
 				$bits[] = '<a href="' . esc_url( $link ) . '" target="_blank" rel="noopener">' . esc_html__( 'Full report', 'crawl-readiness' ) . '</a>';
 			}
-			echo '<p class="crawlready-meta">' . implode( ' · ', $bits ) . '</p>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- each part escaped above.
+			echo '<p class="crawlready-meta">' . wp_kses(
+				implode( ' · ', $bits ),
+				array(
+					'a' => array(
+						'href'   => array(),
+						'target' => array(),
+						'rel'    => array(),
+					),
+				)
+			) . '</p>';
 			if ( ! empty( $report['usage'] ) && ! empty( $report['usage']['limit'] ) ) {
 				echo '<p class="crawlready-meta">' . esc_html( sprintf(
 					/* translators: 1: checks used, 2: monthly limit */

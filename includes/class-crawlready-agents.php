@@ -33,8 +33,9 @@ class CrawlReady_Agents {
 			return;
 		}
 		header( 'Content-Type: application/json; charset=utf-8' );
+		header( 'X-Content-Type-Options: nosniff' );
 		header( 'Cache-Control: public, max-age=3600' );
-		echo wp_json_encode( self::build(), JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT );
+		echo wp_json_encode( self::build(), JSON_HEX_TAG | JSON_HEX_AMP | JSON_PRETTY_PRINT );
 		exit;
 	}
 

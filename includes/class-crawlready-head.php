@@ -49,17 +49,20 @@ class CrawlReady_Head {
 			if ( '' !== $desc ) {
 				echo '<meta property="og:description" content="' . esc_attr( $desc ) . '">' . "\n";
 			}
-			echo '<meta property="og:type" content="' . ( is_singular( 'post' ) ? 'article' : 'website' ) . '">' . "\n";
+			echo '<meta property="og:type" content="' . esc_attr( is_singular( 'post' ) ? 'article' : 'website' ) . '">' . "\n";
 			echo '<meta property="og:url" content="' . esc_url( $url ) . '">' . "\n";
 			echo '<meta property="og:site_name" content="' . esc_attr( get_bloginfo( 'name' ) ) . '">' . "\n";
 			if ( $image ) {
 				echo '<meta property="og:image" content="' . esc_url( $image ) . '">' . "\n";
 			}
-			echo '<meta name="twitter:card" content="' . ( $image ? 'summary_large_image' : 'summary' ) . '">' . "\n";
+			echo '<meta name="twitter:card" content="' . esc_attr( $image ? 'summary_large_image' : 'summary' ) . '">' . "\n";
 		}
 
 		if ( $schema ) {
-			echo '<script type="application/ld+json">' . wp_json_encode( self::graph(), JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE ) . '</script>' . "\n";
+			// JSON_HEX_TAG and JSON_HEX_AMP write <, > and & as \u escapes, and
+			// slashes stay escaped, so no title or excerpt can close the script
+			// element ("</script>") or open a comment inside it.
+			echo '<script type="application/ld+json">' . wp_json_encode( self::graph(), JSON_HEX_TAG | JSON_HEX_AMP ) . '</script>' . "\n";
 		}
 	}
 
