@@ -1,6 +1,6 @@
 === Grubbomatic Crawl Readiness – AI Crawler Check and Fixes ===
 Contributors: grubbomatic
-Tags: ai, llms.txt, robots.txt, schema, open graph
+Tags: ai crawler, ai, llms.txt, robots.txt, schema
 Requires at least: 6.0
 Tested up to: 7.1
 Requires PHP: 7.4
