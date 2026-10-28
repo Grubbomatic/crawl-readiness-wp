@@ -433,9 +433,9 @@ class CrawlReady_Admin {
 			</form>
 
 			<div class="crawlready-monitor">
-				<p><strong><?php esc_html_e( 'Being readable is step one. Being mentioned is the goal.', 'grubbomatic-crawl-readiness' ); ?></strong></p>
-				<p><?php esc_html_e( 'LLM Monitor asks ChatGPT, Claude, Perplexity and Google AI the questions your customers ask, and tracks whether they name you or a competitor, every week.', 'grubbomatic-crawl-readiness' ); ?></p>
-				<a class="button" href="<?php echo esc_url( CRAWLREADY_SITE . '/dashboard/monitor?utm_source=wordpress-plugin' ); ?>" target="_blank" rel="noopener"><?php esc_html_e( 'Track your brand in AI answers', 'grubbomatic-crawl-readiness' ); ?></a>
+				<p><strong><?php esc_html_e( 'Readable is step one. Staying set up the way you intend is the rest.', 'grubbomatic-crawl-readiness' ); ?></strong></p>
+				<p><?php esc_html_e( 'Monitor re-checks this site weekly or daily and tells you the day its verdict or its access policy changes, with the signal that moved. The Machine Readiness Audit measures every page, writes the five files for WordPress and runs an Answer Analysis of the questions your customers ask on live AI search.', 'grubbomatic-crawl-readiness' ); ?></p>
+				<a class="button" href="<?php echo esc_url( CRAWLREADY_SITE . '/pricing?utm_source=wordpress-plugin' ); ?>" target="_blank" rel="noopener"><?php esc_html_e( 'See Monitor and the audit', 'grubbomatic-crawl-readiness' ); ?></a>
 			</div>
 
 			<p class="crawlready-meta">

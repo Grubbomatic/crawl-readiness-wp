@@ -4,7 +4,7 @@ Tags: ai crawler, ai, llms.txt, robots.txt, schema
 Requires at least: 6.0
 Tested up to: 7.1
 Requires PHP: 7.4
-Stable tag: 1.0.0
+Stable tag: 1.0.1
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -34,7 +34,7 @@ If Yoast SEO, Rank Math, All in One SEO, SEOPress, The SEO Framework or Slim SEO
 
 = Going further =
 
-Being readable is step one. [LLM Monitor](https://www.crawlreadiness.com/dashboard/monitor) asks ChatGPT, Claude, Perplexity and Google AI the questions your customers ask and tracks, week by week, whether they name you or a competitor. Paid plans start at $29 a month; the check and this plugin are free.
+Being readable is step one. [Monitor](https://www.crawlreadiness.com/pricing) re-checks your site weekly or daily and tells you the day its verdict or its access policy changes, with the signal that moved. The [Machine Readiness Audit](https://www.crawlreadiness.com/pricing) measures every page, writes the five files for WordPress and runs an Answer Analysis of the questions your customers ask on live AI search. The check and this plugin are free.
 
 == External services ==
 
@@ -79,6 +79,9 @@ No. The head tags are built from data WordPress already has, and llms.txt and ag
 3. The dashboard widget.
 
 == Changelog ==
+
+= 1.0.1 =
+* The closing card and this readme describe Monitor and the Machine Readiness Audit; the old LLM Monitor pitch is gone. No functional change.
 
 = 1.0.0 =
 * First release: the check, llms.txt, AI crawler rules with a Content-Signal line, meta and Open Graph tags, JSON-LD, agents.json, dashboard widget.
