@@ -5,3 +5,5 @@
 .gitignore export-ignore
 /dist export-ignore
 /.wordpress-org export-ignore
+/.github export-ignore
+/listing-source export-ignore
