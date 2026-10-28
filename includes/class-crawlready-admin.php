@@ -185,7 +185,9 @@ class CrawlReady_Admin {
 		if ( false !== strpos( $issue, 'agents.json' ) ) {
 			return 'agents';
 		}
-		if ( false !== strpos( $issue, 'content-signal' ) || false !== strpos( $issue, 'crawlers are blocked' ) ) {
+		// Blocked crawlers aren't matched: the robots switch never un-blocks a
+		// crawler, since the rule that blocks it may be one the owner meant.
+		if ( false !== strpos( $issue, 'content-signal' ) ) {
 			return 'robots';
 		}
 		if ( false !== strpos( $issue, 'meta description' ) || false !== strpos( $issue, 'open graph' ) || false !== strpos( $issue, 'og:' ) ) {
@@ -378,9 +380,9 @@ class CrawlReady_Admin {
 						<tr>
 							<th scope="row"><?php esc_html_e( 'AI crawlers in robots.txt', 'grubbomatic-crawl-readiness' ); ?></th>
 							<td>
-								<label><input type="checkbox" name="robots" value="1" <?php checked( $opts['robots'] ); ?>> <?php esc_html_e( 'Add a rule for every known AI crawler, and a Content-Signal line', 'grubbomatic-crawl-readiness' ); ?></label>
+								<label><input type="checkbox" name="robots" value="1" <?php checked( $opts['robots'] ); ?>> <?php esc_html_e( 'State your AI preferences in robots.txt with a Content-Signal line', 'grubbomatic-crawl-readiness' ); ?></label>
 								<p>
-									<label><input type="radio" name="robots_mode" value="allow" <?php checked( 'allow', $opts['robots_mode'] ); ?>> <?php esc_html_e( 'Allow all AI crawlers', 'grubbomatic-crawl-readiness' ); ?></label><br>
+									<label><input type="radio" name="robots_mode" value="allow" <?php checked( 'allow', $opts['robots_mode'] ); ?>> <?php esc_html_e( 'Allow AI crawlers (any you block yourself stay blocked)', 'grubbomatic-crawl-readiness' ); ?></label><br>
 									<label><input type="radio" name="robots_mode" value="no-training" <?php checked( 'no-training', $opts['robots_mode'] ); ?>> <?php esc_html_e( 'Allow AI search and assistants, block AI training', 'grubbomatic-crawl-readiness' ); ?></label>
 								</p>
 								<?php if ( CrawlReady_Robots::physical_file_exists() ) : ?>

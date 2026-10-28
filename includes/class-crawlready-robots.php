@@ -23,50 +23,11 @@ class CrawlReady_Robots {
 	}
 
 	/**
-	 * Every AI crawler token the check knows, by vendor.
-	 *
-	 * @return array
-	 */
-	public static function crawlers() {
-		return array(
-			'OpenAI'             => array( 'GPTBot', 'OAI-SearchBot', 'ChatGPT-User' ),
-			'Anthropic'          => array( 'ClaudeBot', 'Claude-User', 'Claude-SearchBot', 'Claude-Web', 'anthropic-ai' ),
-			'Google AI'          => array( 'Google-Extended', 'GoogleOther', 'Gemini-Deep-Research', 'Google-NotebookLM', 'Google-CloudVertexBot', 'GoogleOther-Image', 'GoogleOther-Video' ),
-			'Perplexity'         => array( 'PerplexityBot', 'Perplexity-User' ),
-			'xAI / Grok'         => array( 'GrokBot', 'Grok-DeepSearch', 'xAI-Grok' ),
-			'Microsoft Copilot'  => array( 'Copilot', 'CopilotNative' ),
-			'Meta AI'            => array( 'meta-externalagent', 'meta-externalfetcher', 'FacebookBot' ),
-			'Apple Intelligence' => array( 'Applebot-Extended' ),
-			'Amazon'             => array( 'Amazonbot' ),
-			'Huawei'             => array( 'PetalBot' ),
-			'Yandex AI'          => array( 'YandexAdditional', 'YandexAdditionalBot' ),
-			'DeepSeek'           => array( 'DeepSeekBot' ),
-			'Mistral'            => array( 'MistralAI-User' ),
-			'Cohere'             => array( 'cohere-ai', 'cohere-training-data-crawler' ),
-			'Common Crawl'       => array( 'CCBot' ),
-			'DuckDuckGo AI'      => array( 'DuckAssistBot' ),
-			'Bytedance'          => array( 'Bytespider' ),
-			'Diffbot'            => array( 'Diffbot' ),
-			'Allen AI'           => array( 'AI2Bot', 'AI2Bot-Dolma' ),
-			'Phind'              => array( 'PhindBot' ),
-			'You.com'            => array( 'YouBot' ),
-			'Kagi'               => array( 'Kagibot' ),
-			'Andi'               => array( 'AndiBot' ),
-			'Timpi'              => array( 'Timpibot' ),
-			'Sider'              => array( 'SiderAI' ),
-			'Hugging Face'       => array( 'HuggingFace-Bot' ),
-			'Quora / Poe'        => array( 'Quora-Bot' ),
-			'Genspark'           => array( 'GensparkBot' ),
-			'Neeva'              => array( 'NeevaBot' ),
-			'Elicit'             => array( 'Elicit-Bot' ),
-		);
-	}
-
-	/**
 	 * Tokens whose makers document them as collecting training data only.
-	 * "Allow AI search, not training" disallows these and allows everything
-	 * else. The same list the Crawl Readiness check leaves out of its score,
-	 * so this mode never costs points there. Google-Extended and
+	 * "Allow AI search, not training" disallows these and leaves every other
+	 * crawler to the site's own rules. The same list the Crawl Readiness
+	 * check leaves out of its score, so this mode never costs points there.
+	 * Google-Extended and
 	 * meta-externalagent are not on it: Google says Google-Extended also
 	 * controls grounding in the Gemini apps, and Meta says meta-externalagent
 	 * also indexes content for its products, so blocking either costs answers.
@@ -116,29 +77,37 @@ class CrawlReady_Robots {
 	 * @return string
 	 */
 	public static function rules() {
-		$mode     = 'no-training' === CrawlReady_Settings::get( 'robots_mode' ) ? 'no-training' : 'allow';
-		$train    = 'no-training' === $mode ? 'no' : 'yes';
-		$training = array_flip( self::training() );
+		$mode = 'no-training' === CrawlReady_Settings::get( 'robots_mode' ) ? 'no-training' : 'allow';
+		// "Allow" leaves ai-train out rather than writing "yes": a yes reads as
+		// permission to train, which the owner may not mean, and leaving it out
+		// still lets every crawler the rules allow in.
+		$signal = 'no-training' === $mode ? 'search=yes, ai-input=yes, ai-train=no' : 'search=yes, ai-input=yes';
 		// The empty "Disallow:" closes the "*" group. Without a rule there, the
 		// next line, "User-agent: GPTBot", joins the same group (robots.txt
 		// parsers, Google's included, treat back-to-back user-agent lines as
 		// one group), so GPTBot's "Disallow: /" in no-training mode applied to
 		// every crawler, Googlebot too. An empty Disallow matches nothing, so
-		// unlike "Allow: /" it can't loosen any rule the site already has.
+		// it can't loosen any rule the site already has.
 		$lines = array(
 			'# AI crawlers, managed by the Crawl Readiness plugin',
 			'User-agent: *',
-			'Content-Signal: search=yes, ai-input=yes, ai-train=' . $train,
+			'Content-Signal: ' . $signal,
 			'Disallow:',
 			'',
 		);
-		foreach ( self::crawlers() as $vendor => $tokens ) {
-			$lines[] = '# ' . $vendor;
-			foreach ( $tokens as $token ) {
+		// No crawler gets an "Allow: /" group of its own. A crawler named in a
+		// group ignores the "*" group (RFC 9309), so "User-agent: GPTBot /
+		// Allow: /" let GPTBot into /wp-admin/ and anything else the site's
+		// "*" rules keep out, and merged with an owner's own "Disallow: /" for
+		// GPTBot it un-blocked the crawler. AI crawlers the site doesn't name
+		// follow its "*" rules, which on a stock site allow them. Only the
+		// training crawlers are named, and only to block them.
+		if ( 'no-training' === $mode ) {
+			$lines[] = '# Crawlers that only collect AI training data';
+			foreach ( self::training() as $token ) {
 				$lines[] = 'User-agent: ' . $token;
-				$lines[] = ( 'no-training' === $mode && isset( $training[ $token ] ) ) ? 'Disallow: /' : 'Allow: /';
+				$lines[] = 'Disallow: /';
 			}
-			$lines[] = '';
 		}
 		return rtrim( implode( "\n", $lines ) ) . "\n";
 	}
