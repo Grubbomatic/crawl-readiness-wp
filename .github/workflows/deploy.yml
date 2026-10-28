@@ -29,6 +29,11 @@ jobs:
           echo "tag $TAG · header $HEADER · stable tag $STABLE"
           test "$TAG" = "$HEADER" && test "$TAG" = "$STABLE"
 
+      # A PHP syntax error takes down every site running the plugin, so a
+      # tag that doesn't parse never reaches wordpress.org.
+      - name: Check every PHP file parses
+        run: find . -name '*.php' -not -path './.git/*' -print0 | xargs -0 -n1 php -l
+
       - name: Deploy
         uses: 10up/action-wordpress-plugin-deploy@stable
         env:

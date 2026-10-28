@@ -1,0 +1,20 @@
+# Parses every PHP file on each pull request and push to main. Nobody here
+# has PHP installed locally, so this is the only syntax check before a
+# release; deploy.yml runs the same check again before it ships a tag.
+name: PHP syntax
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+
+jobs:
+  lint:
+    name: php -l
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Check every PHP file parses
+        run: find . -name '*.php' -not -path './.git/*' -print0 | xargs -0 -n1 php -l
