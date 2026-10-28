@@ -4,7 +4,7 @@ Tags: ai crawler, ai, llms.txt, robots.txt, schema
 Requires at least: 6.0
 Tested up to: 7.1
 Requires PHP: 7.4
-Stable tag: 1.0.1
+Stable tag: 1.0.2
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -17,7 +17,7 @@ ChatGPT, Claude, Perplexity and Google AI answer questions by reading websites. 
 **Grubbomatic Crawl Readiness** runs the free readiness check from [crawlreadiness.com](https://www.crawlreadiness.com) against your site and shows the result in wp-admin: a score out of 100, a plain-English verdict, and the list of things AI crawlers need that your site does not have yet. Then it fixes most of them for you, from inside WordPress:
 
 * **llms.txt** — a Markdown summary of your site, built from your own pages and posts and served at `/llms.txt`. Nothing is written to disk and nothing goes stale.
-* **AI crawlers in robots.txt** — a rule for every known AI crawler (OpenAI, Anthropic, Google, Perplexity, Meta, Apple and the rest) plus a Content-Signal line. Choose "allow all" or "allow AI search and assistants, block AI training".
+* **AI crawlers in robots.txt** — a Content-Signal line that states your AI preferences, and, if you choose "allow AI search and assistants, block AI training", a block for each crawler that only collects training data (GPTBot, ClaudeBot, Common Crawl and a few more). It never un-blocks a crawler: any rule you or another plugin already wrote stays in force.
 * **Meta description and Open Graph tags** — a description, title, image and canonical address for every page, when you do not already run an SEO plugin.
 * **Structured data (JSON-LD)** — Organization and WebSite for the site, Article for posts, again only when no SEO plugin owns it.
 * **agents.json** — an optional card at `/.well-known/agents.json` pointing AI systems at your llms.txt, sitemap and feed.
@@ -79,6 +79,11 @@ No. The head tags are built from data WordPress already has, and llms.txt and ag
 3. The dashboard widget.
 
 == Changelog ==
+
+= 1.0.2 =
+* The robots.txt switch no longer gives each AI crawler an "Allow: /" rule of its own. A crawler with its own rule ignores the site's "User-agent: *" rules, so those lines let AI crawlers into /wp-admin/ and into anything else those rules keep out, and could un-block a crawler the owner had blocked. AI crawlers now follow the site's own rules; "block AI training" still blocks the training-only crawlers by name.
+* "Allow AI crawlers" mode leaves ai-train out of the Content-Signal line instead of writing ai-train=yes, so it no longer grants training on the owner's behalf.
+* A blocked-crawler finding no longer points at the robots switch.
 
 = 1.0.1 =
 * The closing card and this readme describe Monitor and the Machine Readiness Audit; the old LLM Monitor pitch is gone. No functional change.
