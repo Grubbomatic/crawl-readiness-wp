@@ -4,7 +4,7 @@ Tags: ai crawler, ai, llms.txt, robots.txt, schema
 Requires at least: 6.0
 Tested up to: 7.1
 Requires PHP: 7.4
-Stable tag: 1.0.2
+Stable tag: 1.0.3
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -12,7 +12,7 @@ Check whether AI crawlers can read your site, then fix what they need in one cli
 
 == Description ==
 
-ChatGPT, Claude, Perplexity and Google AI answer questions by reading websites. If they cannot read yours, you are not in the answer.
+AI search engines, AI assistants and the crawlers that gather training data all read websites. This plugin checks how yours looks to them, from the outside, and sets it up the way you intend: readable where you want it read, closed to AI training if you choose, with the files AI systems look for.
 
 **Grubbomatic Crawl Readiness** runs the free readiness check from [crawlreadiness.com](https://www.crawlreadiness.com) against your site and shows the result in wp-admin: a score out of 100, a plain-English verdict, and the list of things AI crawlers need that your site does not have yet. Then it fixes most of them for you, from inside WordPress:
 
@@ -26,7 +26,7 @@ The check itself takes about ten seconds and can be run again any time. The dash
 
 = Check first, then fix =
 
-Most AI plugins write a file and hope it helps. This one looks first, from the outside, the way an AI crawler does. It tests 51 AI crawlers and scores them by what each one is for, so blocking the ones that only collect training data doesn't cost you points. Every finding is matched to the switch that fixes it, and checking again shows whether it worked. llms.txt is one of five fixes, not the point of the plugin.
+Most AI plugins write a file and hope it helps. This one looks first, from the outside, the way an AI crawler does. It tests 60 AI crawlers and scores them by what each one is for, so blocking the ones that only collect training data doesn't cost you points. Every finding is matched to the switch that fixes it, and checking again shows whether it worked. llms.txt is one of five fixes, not the point of the plugin.
 
 = Works with your SEO plugin =
 
@@ -79,6 +79,10 @@ No. The head tags are built from data WordPress already has, and llms.txt and ag
 3. The dashboard widget.
 
 == Changelog ==
+
+= 1.0.3 =
+* "Allow AI search and assistants, block AI training" also blocks MistralAI-Training, Mistral's training crawler, so the list matches the training-only crawlers the Crawl Readiness check leaves out of its score.
+* The description says what the plugin is for: a site set up for AI the way you intend. The check covers 60 AI crawlers.
 
 = 1.0.2 =
 * The robots.txt switch no longer gives each AI crawler an "Allow: /" rule of its own. A crawler with its own rule ignores the site's "User-agent: *" rules, so those lines let AI crawlers into /wp-admin/ and into anything else those rules keep out, and could un-block a crawler the owner had blocked. AI crawlers now follow the site's own rules; "block AI training" still blocks the training-only crawlers by name.
