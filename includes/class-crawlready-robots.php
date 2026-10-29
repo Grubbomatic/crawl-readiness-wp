@@ -27,6 +27,8 @@ class CrawlReady_Robots {
 	 * "Allow AI search, not training" disallows these and leaves every other
 	 * crawler to the site's own rules. The same list the Crawl Readiness
 	 * check leaves out of its score, so this mode never costs points there.
+	 * MistralAI-Training joined with the registry of 28 Oct 2026. FacebookBot
+	 * is retired there; it stays here so an upgrade never un-blocks it.
 	 * Google-Extended and
 	 * meta-externalagent are not on it: Google says Google-Extended also
 	 * controls grounding in the Gemini apps, and Meta says meta-externalagent
@@ -45,6 +47,7 @@ class CrawlReady_Robots {
 			'cohere-training-data-crawler',
 			'AI2Bot',
 			'AI2Bot-Dolma',
+			'MistralAI-Training',
 		);
 	}
 
